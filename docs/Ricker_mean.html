@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.217">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Which Ricker curve is best?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Which Ricker curve is best?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Hello all,</p>
+<p>During our meeting last week it became apparent that my understanding of the <span class="math inline">\(log(\alpha)\)</span> correction differed markedly from many others. I prepared this document to explain my understanding of this issue. In listening to everyone thoughts, and reading the paper Sara attached to the meeting, I noted three concerns from the group:</p>
+<ol type="1">
+<li><span class="math inline">\(S^{'}_{msy}\)</span> (Smsy calculated using <span class="math inline">\(log(\alpha) + \sigma^2/2\)</span>) is a poor estimate of <span class="math inline">\(S_{msy}\)</span>.</li>
+</ol>
+<p>I was surprised by this as I was not aware that anyone thought <span class="math inline">\(S^{'}_{msy}\)</span> was an estimate of <span class="math inline">\(S_{msy}\)</span>. I don’t want to pander to anyone but perhaps it’s helpful to state that <span class="math inline">\(S^{'}_{msy}\)</span> exists to describe a Ricker curve that passes though the mean of the recruitment data. Because stock recruit equations generally assume lognormal process error the Ricker regression is conducted in log space. If we exponentiate the regression mean we get the mode of recruits in the natural space, which can be adjusted to represent the mean with the factor <span class="math inline">\(e^{\sigma^2/2}\)</span>. While it is convenient to incorporate this correction into <span class="math inline">\(log(\alpha^{'}) = log(\alpha) + \sigma^2/2\)</span> this convenience is not meant to imply <span class="math inline">\(log(\alpha^{'})\)</span> (or any of it’s derivatives) are less biased versions of the uncorrected parameter. In this light use of <span class="math inline">\(log(\alpha^{'})\)</span> is really a decision about weather you want the Ricker curve to go through the mean or the mode of your data. The figure below demonstrated this choice by simulating many generations of stock recruit data (<span class="math inline">\(log(\alpha)=\)</span> 1.5, <span class="math inline">\(\beta=\)</span> 0.001, <span class="math inline">\(\sigma=\)</span> 0.5), and binning the simulated recruitments into groups where each group corresponds to a range of 50 escaped fish. The box plots show the 25%, 50% and 75% quantiles and the red dot shows the mean for recruitment in each bin.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ricker_mean_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Correcting for the mean is not appropriate when the posterior is simulated.</li>
+</ol>
+<p>It has been pointed out that use of <span class="math inline">\(\sigma^2/2\)</span> is unnecessary when using MCMC, since MCMC provides the entire posterior for estimated recruitment, from which both the median and the mean are readily available. This is correct, however the I’m unaware of anyone who uses <span class="math inline">\(\sigma^2/2\)</span> to estimate the mean of annual recruitment with MCMC methods. Instead, <span class="math inline">\(\sigma^2/2\)</span> is used to calculate <span class="math inline">\(log(\alpha^{'})\)</span> and <span class="math inline">\(S^{'}_{msy}\)</span> which describe a Ricker curve which go through the mean of the data.</p>
+<ol start="3" type="1">
+<li>The department needs to be consistent in it’s usage of <span class="math inline">\(S_{msy}\)</span> or <span class="math inline">\(S^{'}_{msy}\)</span>.</li>
+</ol>
+<p>I certainly agree that our current system (which seems to be based on personal preference) could be refined. That said, I’m not convinced that it is in the department’s best interests to eliminate use of either <span class="math inline">\(S_{msy}\)</span> or <span class="math inline">\(S^{'}_{msy}\)</span> when describing spawn-recruit relationships. In the rest of statistics the analyst chooses a measure of central tendency depending on the analysis goals and the characteristics of the data. It is well known that the mean minimizes squared errors while a median minimizes absolute errors. It seems appealing to me to think about the mean/mode choice with respect to the Ricker curve in this way<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> although it is not obvious (to me) that characteristics we know apply to the mean and mode of a random variable also apply to yields derived from management objectives derived from mean and mode centered Ricker curves. To evaluate situations where mean or mode centered Ricker curves may be preferable I conducted a simple management strategy evaluation.</p>
+<p>The idea behind a management strategy evaluation is to simulate population dynamics using assumed stock-recruit equation and then ‘manage’ the population with a variety of operating models that describe different harvest strategies. The operating models I’ll explore maximize sustained yield by fishing to <span class="math inline">\(S_{MSY}\)</span> or <span class="math inline">\(S_{MSY}^{'}\)</span>. Note that we should expect any difference we find to be modest as while <span class="math inline">\(ln(\alpha^{'})\)</span> is considerably larger than <span class="math inline">\(ln(\alpha)\)</span> at most combinations of <span class="math inline">\(ln(\alpha)\)</span> and <span class="math inline">\(\sigma\)</span>, <span class="math inline">\(S_{MSY}^{'}\)</span> is more similar to <span class="math inline">\(S_{MSY}\)</span> and <span class="math inline">\(R_{MSY}^{'}\)</span> (the point estimate for recruitment at <span class="math inline">\(S_{MSY}^{'}\)</span>) is even more similar to <span class="math inline">\(R_{MSY}\)</span> at the same parameter values.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ricker_mean_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For this example I picked a range of values for <span class="math inline">\(ln(\alpha)\)</span> (0.5, 1.5, 2.5) and <span class="math inline">\(\sigma\)</span> (0.5, 0.75, 1) which should span all of the values you would expect to see in a salmon population. For each combination I simulated 2 populations of 500 generations which were exposed to identical annual process error. Each population was harvested at a rate that would maximize sustained yield according the the mode or mean Ricker curve (S = <span class="math inline">\(S_{MSY}\)</span> or <span class="math inline">\(S_{MSY}^{'}\)</span>). Harvest rates were 0 if the simulated number of recruits was less than <span class="math inline">\(S_{MSY}\)</span> or <span class="math inline">\(S_{MSY}^{'}\)</span> and could not exceed 85%. The plot below shows summary statistics for recruitment, spawning abundance and yield. The dots and error bars show the mean for each parameter while the 25%, 50% and 75% quantiles are shown using a box plot. As expected, differences in yield are negligible for most combinations of <span class="math inline">\(ln(\alpha)\)</span> and <span class="math inline">\(\sigma\)</span> while recruitment and spawning escapement are generally larger when managing to <span class="math inline">\(S_{MSY}^{'}\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ricker_mean_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In my eyes the plot above argues for managing to <span class="math inline">\(S_{MSY}^{'}\)</span> because while the situation where we would experience improved yield appear to be negligible at worst we are able to attain the same yield with larger numbers of fish returning and being allowed to spawn. However, you may be able to make an economic argument for managing to <span class="math inline">\(S_{MSY}\)</span> which revolves around fishery predictability. The plot below shows the probability that the fishery is overcapacity [P(U=85%)] thus forgoing available yield or closes [P(U=0%)] for each scenario. Not surprisingly the slightly larger objective associated with <span class="math inline">\(S_{MSY}^{'}\)</span> leads to more closures but fewer situations where the fishery is overcapacity. Again the differences are small.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ricker_mean_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There is one obvious situation where an analyst may want to choose the Ricker mode to describe the stock recruit relationship, that being the case where the available data has an extreme outlier. I admit cherry picking this data from my simulation time series (<span class="math inline">\(ln(\alpha)\)</span> = 1.5 and <span class="math inline">\(\sigma\)</span> = 0.75) but I did not have to look to hard… I just picked the first 25 year chuck that had one very large recruitment. Below I show the data, the true Ricker relationship, the estimated Ricker mean and the estimated Ricker mode. While in this case we see that the large recruitment forces the estimated mean stock recruit relationship too high a naive analyst (who does not know the true SR relationship) might prefer to use the mode based on her belief that the large recruitment was associated with analogously large process error or simply distorts the relationship due to its size and the relatively sparse data available to counter it’s effect.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ricker_mean_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Note that this is a separate discussion from which measure of central tendency you want to use to summarize your estimates of annual recruitment.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    if (id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        return container.innerHTML
+      } else {
+        return note.innerHTML;
+      }
+    } else {
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      try { hash = new URL(url).hash; } catch {}
+      const id = hash.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note !== null) {
+        try {
+          const html = processXRef(id, note);
+          instance.setContent(html);
+        } finally {
+          instance.enable();
+          instance.show();
+        }
+      } else {
+        // See if we can fetch this
+        fetch(url.split('#')[0])
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.getElementById(id);
+          if (note !== null) {
+            const html = processXRef(id, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
