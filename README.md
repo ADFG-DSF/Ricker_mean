@@ -4,6 +4,8 @@ This repository contains a Rmarkdown document Adam Reimer created after attendin
 
 The network location for this repository is S:\RTS\Reimer\Ricker\_mean.
 
+The output document can be viewed at [Which Ricker curve is best? (adfg-dsf.github.io)](https://adfg-dsf.github.io/Ricker_mean/Ricker_mean.html).
+
 Files in this repository are:
 
 -   lnalpha_c sim.R: This represent my 'working copy' for the functions and analyses used in the .qmd document. May not be 100% up to date with .qmd document.
